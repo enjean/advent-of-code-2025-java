@@ -1,0 +1,1 @@
+rootProject.name = "advent-java-25"
