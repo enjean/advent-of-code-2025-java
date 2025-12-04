@@ -16,13 +16,14 @@ class DialTest {
     @ArgumentsSource(RotateDialArgumentsProvider.class)
     void rotateDial(
         int currentPosition,
-        Direction direction,
-        int numberOfClicks,
-        int expected
+        Instruction instruction,
+        int expectedPosition,
+        int expectedTimesPassing0
     ) {
         Dial dial = new Dial(currentPosition);
-        dial.rotate(direction, numberOfClicks);
-        assertEquals(expected, dial.getPosition());
+        int timesAtO = dial.rotate(instruction);
+        assertEquals(expectedPosition, dial.getPosition());
+        assertEquals(expectedTimesPassing0, timesAtO);
     }
 
     static class RotateDialArgumentsProvider implements ArgumentsProvider {
@@ -30,20 +31,21 @@ class DialTest {
         @Override
         public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
             return Stream.of(
-                Arguments.of(11, Direction.RIGHT, 8, 19),
-                Arguments.of(19, Direction.LEFT, 19, 0),
-                Arguments.of(0, Direction.RIGHT, 1, 1),
-                Arguments.of(99, Direction.RIGHT, 1, 0),
-                Arguments.of(50, Direction.LEFT, 68, 82),
-                Arguments.of(82, Direction.LEFT, 30, 52),
-                Arguments.of(52, Direction.RIGHT, 48, 0),
-                Arguments.of(0, Direction.LEFT, 5, 95),
-                Arguments.of(95, Direction.RIGHT, 60, 55),
-                Arguments.of(55, Direction.LEFT, 55, 0),
-                Arguments.of(0, Direction.LEFT, 1, 99),
-                Arguments.of(99, Direction.LEFT, 99, 0),
-                Arguments.of(0, Direction.RIGHT, 14, 14),
-                Arguments.of(14, Direction.LEFT, 82, 32)
+                Arguments.of(11, new Instruction(Direction.RIGHT, 8), 19, 0),
+                Arguments.of(19, new Instruction(Direction.LEFT, 19), 0, 0),
+                Arguments.of(0, new Instruction(Direction.RIGHT, 1), 1, 0),
+                Arguments.of(99, new Instruction(Direction.RIGHT, 1), 0, 0),
+                Arguments.of(50, new Instruction(Direction.LEFT, 68), 82, 1),
+                Arguments.of(82, new Instruction(Direction.LEFT, 30), 52, 0),
+                Arguments.of(52, new Instruction(Direction.RIGHT, 48), 0, 0),
+                Arguments.of(0, new Instruction(Direction.LEFT, 5), 95, 0),
+                Arguments.of(95, new Instruction(Direction.RIGHT, 60), 55, 1),
+                Arguments.of(55, new Instruction(Direction.LEFT, 55), 0, 0),
+                Arguments.of(0, new Instruction(Direction.LEFT, 1), 99, 0),
+                Arguments.of(99, new Instruction(Direction.LEFT, 99), 0, 0),
+                Arguments.of(0, new Instruction(Direction.RIGHT, 14), 14, 0),
+                Arguments.of(14, new Instruction(Direction.LEFT, 82), 32, 1),
+                Arguments.of(50, new Instruction(Direction.RIGHT, 1000), 50, 10)
             );
         }
     }

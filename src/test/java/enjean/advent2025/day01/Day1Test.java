@@ -23,7 +23,8 @@ class Day1Test {
             new Instruction(Direction.RIGHT, 14),
             new Instruction(Direction.LEFT, 82)
         );
-        int result = Day1.countTimesAt0(instructions);
-        assertEquals(3, result);
+        Day1.DialStats result = Day1.turnDial(instructions);
+        assertEquals(3, result.timesAt0());
+        assertEquals(3, result.timesPassing0());
     }
 }

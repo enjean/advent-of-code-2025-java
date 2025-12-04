@@ -1,6 +1,8 @@
 package enjean.advent2025.day01;
 
 public class Dial {
+    private static final int SIZE = 100;
+
     private int position;
 
     public Dial(int initialPosition) {
@@ -11,10 +13,21 @@ public class Dial {
         return position;
     }
 
-    public void rotate(Direction direction, int clicks) {
-        position = switch (direction) {
-            case RIGHT -> (position + (clicks % 100)) % 100;
-            case LEFT -> (position - (clicks % 100) + 100) % 100;
+    public int rotate(Instruction instruction) {
+        int numRotations = instruction.clicks() / SIZE;
+        int remainder = instruction.clicks() % SIZE;
+
+        int newPosition = switch (instruction.direction()) {
+            case LEFT -> position - remainder;
+            case RIGHT -> position + remainder;
         };
+
+        int numTimesPassing0 = numRotations;
+        if ((position != 0 && newPosition < 0) || newPosition > 100) {
+            numTimesPassing0++;
+        }
+
+        position = (newPosition + SIZE) % SIZE;
+        return numTimesPassing0;
     }
 }
