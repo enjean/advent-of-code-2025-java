@@ -17,8 +17,8 @@ public class Day2 {
             .flatMapToLong(i -> i);
     }
 
-    static Long sumInvalidIds(LongStream ids) {
-        return ids.filter(id -> !IdValidator.isValid(id))
+    static Long sumInvalidIds(LongStream ids, IdValidator idValidator) {
+        return ids.filter(id -> !idValidator.isValid(id))
             .sum();
     }
 
@@ -26,7 +26,10 @@ public class Day2 {
         String inputLine = ParseUtils.readLinesFromFile(2).getFirst();
         LongStream parsedInput = parseInput(inputLine);
 
-        long part1 = sumInvalidIds(parsedInput);
-        IO.println("Part 1 = " + part1);
+//        long part1 = sumInvalidIds(parsedInput, new Part1IdValidator());
+//        IO.println("Part 1 = " + part1);
+
+        long part2 = sumInvalidIds(parsedInput, new Part2IdValidator());
+        IO.println("Part 2 = " + part2);
     }
 }
