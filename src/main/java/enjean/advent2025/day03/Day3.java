@@ -15,8 +15,8 @@ public class Day3 {
         return new BatteryBank(joltageRatings);
     }
 
-    static int calculateTotalOutputJoltage(List<BatteryBank> batteryBanks) {
-        return batteryBanks.stream().mapToInt(BatteryBank::largestPossibleJoltage).sum();
+    static long calculateTotalOutputJoltage(List<BatteryBank> batteryBanks, int digitCount) {
+        return batteryBanks.stream().mapToLong(b -> b.largestPossibleJoltage(digitCount)).sum();
     }
 
     static void main() {
@@ -24,7 +24,10 @@ public class Day3 {
             .stream().map(Day3::parseBatteryBank)
             .toList();
 
-        int part1 = calculateTotalOutputJoltage(batteryBanks);
+        long part1 = calculateTotalOutputJoltage(batteryBanks, 2);
         IO.println("Part 1 = " + part1);
+
+        long part2 = calculateTotalOutputJoltage(batteryBanks, 12);
+        IO.println("Part 2 = " + part2);
     }
 }
