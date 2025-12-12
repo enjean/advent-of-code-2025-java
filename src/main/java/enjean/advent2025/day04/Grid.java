@@ -26,6 +26,10 @@ public class Grid {
         matrix[row][col] = true;
     }
 
+    public void removeRoll(int row, int col) {
+        matrix[row][col] = false;
+    }
+
     public int getRowCount() {
         return rowCount;
     }

@@ -26,4 +26,9 @@ class Day4Test {
     void testCountRollsToBePulled() {
         assertEquals(13L, Day4.countRollsToBePulled(exampleGrid));
     }
+
+    @Test
+    void testRemoveAllRollsPossible() {
+        assertEquals(43L, Day4.removeAllRollsPossible(exampleGrid));
+    }
 }
