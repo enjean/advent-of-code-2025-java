@@ -27,4 +27,9 @@ class CafeteriaDataTest {
     void countFreshIngredients() {
         assertEquals(3L, exampleCafeteriaData.countFreshIngredients());
     }
+
+    @Test
+    void countAllFreshIngredients() {
+        assertEquals(14, exampleCafeteriaData.countAllFreshIngredients());
+    }
 }

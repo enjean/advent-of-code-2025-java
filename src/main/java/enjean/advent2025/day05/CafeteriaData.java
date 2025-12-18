@@ -1,6 +1,8 @@
 package enjean.advent2025.day05;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CafeteriaData {
@@ -8,6 +10,9 @@ public class CafeteriaData {
         long low,
         long high
     ) {
+        boolean isInRange(long value) {
+            return value >= low && value <= high;
+        }
     }
 
     private final List<Range> freshIngredientRanges = new ArrayList<>();
@@ -25,6 +30,30 @@ public class CafeteriaData {
         return availableIngredients.stream()
             .filter(this::isFresh)
             .count();
+    }
+
+    public long countAllFreshIngredients() {
+        List<Range> rangesSorted = new ArrayList<>(freshIngredientRanges);
+        rangesSorted.sort(Comparator.comparing(Range::low));
+
+        List<Range> combinedRanges = new LinkedList<>();
+        Range activeRange = rangesSorted.getFirst();
+        for (int i = 1; i < rangesSorted.size(); i++) {
+            Range rangeToAdd = rangesSorted.get(i);
+            if (activeRange.isInRange(rangeToAdd.low)) {
+                if (!activeRange.isInRange(rangeToAdd.high)) {
+                    activeRange = new Range(activeRange.low, rangeToAdd.high);
+                }
+            } else {
+                combinedRanges.add(activeRange);
+                activeRange = rangeToAdd;
+            }
+        }
+        combinedRanges.add(activeRange);
+
+        return combinedRanges.stream()
+            .mapToLong(r -> r.high - r.low + 1)
+            .sum();
     }
 
     private boolean isFresh(long ingredient) {

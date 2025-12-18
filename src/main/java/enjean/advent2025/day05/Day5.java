@@ -30,5 +30,8 @@ public class Day5 {
 
         long part1 = cafeteriaData.countFreshIngredients();
         IO.println("Part 1 = " + part1);
+
+        long part2 = cafeteriaData.countAllFreshIngredients();
+        IO.println("Part 2 = " + part2);
     }
 }
